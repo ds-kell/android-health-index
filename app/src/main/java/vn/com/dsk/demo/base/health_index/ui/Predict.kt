@@ -1,130 +1,117 @@
-package vn.com.dsk.demo.base.health_index.ui
-
 import kotlin.math.exp
+import kotlin.math.argmax
+import kotlin.random.Random
 
 fun sigmoid(x: Double): Double {
     return 1 / (1 + exp(-x))
 }
 
-fun softmax(x: List<Double>): List<Double> {
-    val expX = x.map { exp(it) }
+fun softmax(x: DoubleArray): DoubleArray {
+    val maxVal = x.maxOrNull() ?: 0.0
+    val expX = x.map { exp(it - maxVal) }.toDoubleArray()
     val sumExpX = expX.sum()
-    return expX.map { it / sumExpX }
+    return expX.map { it / sumExpX }.toDoubleArray()
 }
 
-data class ModelParameters(
-    val W1: List<List<Double>>,
-    val b1: List<Double>,
-    val W2_bp: List<List<Double>>,
-    val b2_bp: List<Double>,
-    val W2_bg: List<List<Double>>,
-    val b2_bg: List<Double>
+fun forwardPropagationMultiOutput(X: Array<DoubleArray>, parameters: Map<String, DoubleArray>): Map<String, DoubleArray> {
+    val W1 = parameters["W1"] ?: doubleArrayOf()
+    val b1 = parameters["b1"] ?: doubleArrayOf()
+    val W2_bp = parameters["W2_bp"] ?: doubleArrayOf()
+    val b2_bp = parameters["b2_bp"] ?: doubleArrayOf()
+    val W2_bg = parameters["W2_bg"] ?: doubleArrayOf()
+    val b2_bg = parameters["b2_bg"] ?: doubleArrayOf()
+
+    val Z1 = Array(X.size) { DoubleArray(W1[0].size) }
+    val A1 = Array(X.size) { DoubleArray(W1[0].size) }
+    val Z2_bp = Array(X.size) { DoubleArray(W2_bp[0].size) }
+    val A2_bp = Array(X.size) { DoubleArray(W2_bp[0].size) }
+    val Z2_bg = Array(X.size) { DoubleArray(W2_bg[0].size) }
+    val A2_bg = Array(X.size) { DoubleArray(W2_bg[0].size) }
+
+    for (i in X.indices) {
+        for (j in W1[0].indices) {
+            for (k in X[0].indices) {
+                Z1[i][j] += X[i][k] * W1[k][j]
+            }
+            Z1[i][j] += b1[j]
+            A1[i][j] = sigmoid(Z1[i][j])
+        }
+    }
+
+    for (i in A1.indices) {
+        for (j in W2_bp[0].indices) {
+            for (k in A1[0].indices) {
+                Z2_bp[i][j] += A1[i][k] * W2_bp[k][j]
+            }
+            Z2_bp[i][j] += b2_bp[j]
+            A2_bp[i][j] = softmax(Z2_bp[i])[j]
+        }
+    }
+
+    for (i in A1.indices) {
+        for (j in W2_bg[0].indices) {
+            for (k in A1[0].indices) {
+                Z2_bg[i][j] += A1[i][k] * W2_bg[k][j]
+            }
+            Z2_bg[i][j] += b2_bg[j]
+            A2_bg[i][j] = softmax(Z2_bg[i])[j]
+        }
+    }
+
+    return mapOf(
+        "Z1" to Z1,
+        "A1" to A1,
+        "Z2_bp" to Z2_bp,
+        "A2_bp" to A2_bp,
+        "Z2_bg" to Z2_bg,
+        "A2_bg" to A2_bg
+    )
+}
+
+fun predictMultiOutput(X: Array<DoubleArray>, parameters: Map<String, DoubleArray>): Pair<IntArray, IntArray> {
+    val cache = forwardPropagationMultiOutput(X, parameters)
+    val A2_bp = cache["A2_bp"] ?: doubleArrayOf()
+    val A2_bg = cache["A2_bg"] ?: doubleArrayOf()
+
+    val predictions_bp = IntArray(A2_bp.size) { argmax(A2_bp[it]) }
+    val predictions_bg = IntArray(A2_bg.size) { argmax(A2_bg[it]) }
+
+    return Pair(predictions_bp, predictions_bg)
+}
+
+val pathToJsonFile = "model.json"
+
+val parametersMultiOutput = mutableMapOf<String, DoubleArray>()
+
+val file = File(pathToJsonFile)
+file.bufferedReader().use { reader ->
+    val jsonContent = reader.readText()
+    val jsonObject = JSONObject(jsonContent)
+
+    for (key in jsonObject.keys()) {
+        val jsonArray = jsonObject.getJSONArray(key)
+        val doubleArray = DoubleArray(jsonArray.length())
+        for (i in 0 until jsonArray.length()) {
+            doubleArray[i] = jsonArray.getDouble(i)
+        }
+        parametersMultiOutput[key] = doubleArray
+    }
+}
+
+val dataNew = mapOf(
+    "Age" to List(10) { Random.nextInt(20, 80).toDouble() },
+    "BGL-F" to List(10) { Random.nextDouble(70.0, 200.0) },
+    "Diastolic_BP" to List(10) { Random.nextInt(60, 90).toDouble() },
+    "Systolic_BP" to List(10) { Random.nextInt(90, 140).toDouble() }
 )
 
-data class ForwardCache(
-    val Z1: List<List<Double>>,
-    val A1: List<List<Double>>,
-    val Z2_bp: List<List<Double>>, // Các giá trị Z2 cho Blood Pressure
-    val A2_bp: List<List<Double>>, // Các giá trị A2 cho Blood Pressure
-    val Z2_bg: List<List<Double>>, // Các giá trị Z2 cho Blood Glucose
-    val A2_bg: List<List<Double>>  // Các giá trị A2 cho Blood Glucose
-)
+val dfNew = dataNew.toDataFrame()
 
-fun forwardPropagationBP(X: List<List<Double>>, parameters: ModelParameters): ForwardCache {
-    val Z1 = X.map { xi ->
-        parameters.W1.zip(parameters.b1) { w, b ->
-            xi.zip(w) { x, wi -> x * wi }.sum() + b
-        }
-    }
-    val A1 = Z1.map { zi -> zi.map { sigmoid(it) } }
+val XNew = dfNew.select("Age", "BGL-F", "Diastolic_BP", "Systolic_BP").toMatrix()
 
-    val Z2BP = A1.map { ai ->
-        parameters.W2_bp.zip(parameters.b2_bp) { w, b ->
-            ai.zip(w) { a, wi -> a * wi }.sum() + b
-        }
-    }
-    val A2BP = Z2BP.map { zi -> softmax(zi) }
+val (predictionsBpNew, predictionsBgNew) = predictMultiOutput(XNew, parametersMultiOutput)
 
-    return ForwardCache(Z1, A1, Z2BP, A2BP, emptyList(), emptyList())
-}
+println(predictionsBpNew.contentToString())
+println(predictionsBgNew.contentToString())
 
-fun forwardPropagationBG(X: List<List<Double>>, parameters: ModelParameters): ForwardCache {
-    val Z1 = X.map { xi ->
-        parameters.W1.zip(parameters.b1) { w, b ->
-            xi.zip(w) { x, wi -> x * wi }.sum() + b
-        }
-    }
-    val A1 = Z1.map { zi -> zi.map { sigmoid(it) } }
-
-    val Z2BG = A1.map { ai ->
-        parameters.W2_bg.zip(parameters.b2_bg) { w, b ->
-            ai.zip(w) { a, wi -> a * wi }.sum() + b
-        }
-    }
-    val A2BG = Z2BG.map { zi -> softmax(zi) }
-
-    return ForwardCache(Z1, A1, emptyList(), emptyList(), Z2BG, A2BG)
-}
-
-fun forwardPropagationMultiOutput(
-    X: List<List<Double>>,
-    parameters: ModelParameters
-): ForwardCache {
-    val cacheBP = forwardPropagationBP(X, parameters)
-    val cacheBG = forwardPropagationBG(X, parameters)
-
-    return ForwardCache(
-        cacheBP.Z1 + cacheBG.Z1,
-        cacheBP.A1 + cacheBG.A1,
-        cacheBP.Z2_bp + cacheBG.Z2_bp,
-        cacheBP.A2_bp + emptyList(),
-        cacheBG.Z2_bg,
-        cacheBG.A2_bg
-    )
-}
-
-fun predict(predictions: List<List<Double>>): List<Int> {
-    return predictions.map { it.indexOf(it.maxOrNull() ?: 0.0) }
-}
-
-fun main() {
-    // Tạo một số dữ liệu để test
-    val testInput = listOf(
-        listOf(30.0, 120.0, 70.0, 110.0, 80.0),   // Example input 1
-        listOf(40.0, 130.0, 75.0, 120.0, 85.0),   // Example input 2
-        // ... Add more examples as needed
-    )
-
-    // Thay đổi kích thước của trọng số để phản ánh số lượng thuộc tính
-    val numHiddenUnits = 64
-    val numClassesBP = 3  // Số lớp cho Blood Pressure
-    val numClassesBG = 3  // Số lớp cho Blood Glucose
-
-    val parameters = ModelParameters(
-        W1 = List(testInput[0].size) { List(numHiddenUnits) { 0.1 } },
-        b1 = List(numHiddenUnits) { 0.1 },
-        W2_bp = List(numHiddenUnits) { List(numClassesBP) { 0.1 } },
-        b2_bp = List(numClassesBP) { 0.1 },
-        W2_bg = List(numHiddenUnits) { List(numClassesBG) { 0.1 } },
-        b2_bg = List(numClassesBG) { 0.1 }
-    )
-
-    // Forward propagation
-    val forwardCache = forwardPropagationMultiOutput(testInput, parameters)
-
-    // Display the results
-    println("Forward Cache:")
-    println("Z1: ${forwardCache.Z1}")
-    println("A1: ${forwardCache.A1}")
-    println("Z2_BP: ${forwardCache.Z2_bp}")
-    println("A2_BP: ${forwardCache.A2_bp}")
-    println("Z2_BG: ${forwardCache.Z2_bg}")
-    println("A2_BG: ${forwardCache.A2_bg}")
-
-    // Make predictions
-    val predictions = predict(forwardCache.A2_bg)
-
-    // Display predictions
-    println("Predictions: $predictions")
-}
 

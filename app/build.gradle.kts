@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-parcelize")
+    id("com.chaquo.python")
     kotlin("plugin.serialization") version "1.9.20"
 }
 
@@ -14,7 +16,9 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
+        ndk {
+            abiFilters
+        }
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -45,4 +49,5 @@ dependencies {
 
     implementation("com.beust:klaxon:5.5")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.1")
+    implementation("com.google.code.gson:gson:2.10.1")
 }

@@ -3,5 +3,15 @@ plugins {
     id("com.android.application") version "8.2.0-beta06" apply false
     id("org.jetbrains.kotlin.android") version "1.9.0" apply false
     kotlin("plugin.serialization") version "1.9.20"
-    id("com.chaquo.python") version "14.0.2" apply false
+    id("com.google.devtools.ksp") version "1.9.0-1.0.11"
+}
+buildscript {
+    val hiltVersion by extra { "2.47" }
+    val navVersion by extra { "2.6.0" }
+    val googleServices by extra { "4.4.0" }
+    dependencies {
+        classpath("com.google.dagger:hilt-android-gradle-plugin:$hiltVersion")
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$navVersion")
+        classpath("com.google.gms:google-services:$googleServices")
+    }
 }

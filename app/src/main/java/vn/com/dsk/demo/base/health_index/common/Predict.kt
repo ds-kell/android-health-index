@@ -122,22 +122,20 @@ fun printMatrix(matrix: List<List<Double>>) {
         println()
     }
 }
-
-fun main() {
-
-    val jsonString =
-        File("model.json").readText()
-    val modelParameters = Json.decodeFromString<ModelParameters>(jsonString)
-
-    val modelIndexList = ModelIndex(71.0, 123.120632, 78.0, 134.0)
-    val X = listOf(listOf(71.0, 123.120632, 78.0, 134.0))
-
-    val matrix2 = modelIndexList.let {
-        listOf(it.age, it.BGL_F, it.diastolic_BP, it.systolic_BP)
-    }
-//    print(predict(listOf(matrix2), modelParameters)
-    print(modelParameters)
-}
+//
+//fun main() {
+//
+//    val jsonString =
+//        File("model.json").readText()
+//    val modelParameters = Json.decodeFromString<ModelParameters>(jsonString)
+//
+//    val modelIndexList = ModelIndex(71.0, 123.120632, 78.0, 134.0)
+//
+//    val matrix2 = modelIndexList.let {
+//        listOf(it.age, it.BGL_F, it.diastolic_BP, it.systolic_BP)
+//    }
+//    print(modelParameters)
+//}
 
 
 @Serializable

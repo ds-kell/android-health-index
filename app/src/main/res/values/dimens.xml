@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--    -->
+    <dimen name="space_small">3dp</dimen>
+    <dimen name="space_xsmall">5dp</dimen>
+    <dimen name="space_xxsmall">8dp</dimen>
+    <dimen name="space_medium">10dp</dimen>
+    <dimen name="space_xmedium">15dp</dimen>
+    <dimen name="space_large">20dp</dimen>
+    <dimen name="space_xlarge">30dp</dimen>
+    <dimen name="space_extra">40dp</dimen>
+    <!--    -->
+    <dimen name="font_small">10sp</dimen>
+    <dimen name="font_medium">15sp</dimen>
+    <dimen name="font_xmedium">20sp</dimen>
+    <dimen name="font_large">25sp</dimen>
+    <dimen name="font_xlarge">35sp</dimen>
+    <dimen name="font_extra">40sp</dimen>
+    <!--    -->
+    <dimen name="dimen_tini">1px</dimen>
+    <dimen name="dimen_mini">1dp</dimen>
+    <dimen name="dimen_x2mini">2dp</dimen>
+    <dimen name="dimen_x3mini">3dp</dimen>
+    <dimen name="dimen_small">5dp</dimen>
+    <dimen name="dimen_xsmall">8dp</dimen>
+    <dimen name="dimen_medium">10dp</dimen>
+    <dimen name="dimen_xmedium">15dp</dimen>
+    <dimen name="dimen_xxmedium">20dp</dimen>
+    <dimen name="dimen_large">25dp</dimen>
+    <dimen name="dimen_xlarge">30dp</dimen>
+    <dimen name="dimen_xxlarge">35dp</dimen>
+    <dimen name="dimen_extra">40dp</dimen>
+    <dimen name="dimen_xextra">45dp</dimen>
+    <dimen name="dimen_day_width">50dp</dimen>
+    <dimen name="dimen_day_part_height">20dp</dimen>
+    <dimen name="dimen_day_height">60dp</dimen>
+    <!--    -->
+    <dimen name="size_img_product_width">180dp</dimen>
+    <dimen name="size_img_product_height">230dp</dimen>
+    <!--    -->
+    <dimen name="size_img_icon_small">30dp</dimen>
+    <dimen name="size_img_icon_large">40dp</dimen>
+    <dimen name="size_img_icon_xlarge">45dp</dimen>
+    <dimen name="size_img_icon_extra">50dp</dimen>
+    <dimen name="size_icon_category">55dp</dimen>
+    <dimen name="size_img_icon_medium">35dp</dimen>
+    <dimen name="size_img_snaphelper_width">60dp</dimen>
+
+    <dimen name="size_img_shop_avt">80dp</dimen>
+    <dimen name="size_img_in_cart">80dp</dimen>
+    <dimen name="size_img_snaphelper_height">80dp</dimen>
+    <dimen name="size_product_img_vpg">300dp</dimen>
+    <dimen name="size_user_action_bar">80dp</dimen>
+    <dimen name="size_user_avt">80dp</dimen>
+
+
+</resources>

@@ -22,15 +22,8 @@ class MainActivity : AppCompatActivity() {
             Log.d("kel", "$modelParameters")
             if (modelParameters != null) {
                 btnSubmit.setOnClickListener {
-                    val index = listOf(
-                        age.text.toString().toDouble(),
-                        bg.text.toString().toDouble(),
-                        bp1.text.toString().toDouble(),
-                        bp2.text.toString().toDouble()
-                    )
-                    val res = predict(listOf(index), modelParameters)
-                    resBg.text = res.bloodSugar.toString()
-                    resBp.text = res.bloodPressure.toString()
+
+
                 }
             } else {
                 resBg.text = "res.bloodSugar.toString()"

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="textHint"
+            type="String" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="@dimen/space_xsmall"
+        android:layout_margin="@dimen/space_small"
+        android:background="@drawable/bg_border_gray">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_medium"
+            android:background="@drawable/bg_border_xsmall"
+            android:ellipsize="end"
+            android:hint="@{textHint}"
+            android:inputType="number"
+            android:maxLines="1"
+            android:paddingVertical="@dimen/space_xsmall"
+            android:textColor="?colorOnSurface"
+            android:textSize="@dimen/font_medium"
+            tools:hint="Text hint" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

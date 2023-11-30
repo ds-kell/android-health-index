@@ -4,51 +4,65 @@
     <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="15dp"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/age"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="age"
-            android:inputType="number" />
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/bp_1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="bp2"
-            android:inputType="number" />
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/bp_2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="bp_2"
-            android:inputType="number" />
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/bg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="bg"
-            android:inputType="number" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_submit"
+        <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Submit" />
+            android:text="Health Index"
+            android:textSize="30sp" />
+
+        <include
+            android:id="@+id/age_input"
+            layout="@layout/layout_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/space_xsmall" />
+
+        <include
+            android:id="@+id/blood_pressure_input"
+            layout="@layout/layout_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/space_xsmall" />
+
+        <include
+            android:id="@+id/blood_sugar_input"
+            layout="@layout/layout_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/space_xsmall" />
+
+        <include
+            android:id="@+id/heart_rate_input"
+            layout="@layout/layout_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/space_xsmall" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_submit"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/space_large"
+            android:background="@drawable/bg_button"
+            android:text="Submit"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/res_bp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/res_bg"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

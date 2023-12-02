@@ -4,7 +4,7 @@
     <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="15dp"
+        android:layout_margin="@dimen/space_extra"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -19,28 +19,28 @@
             layout="@layout/layout_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/space_xsmall" />
+            android:layout_marginVertical="@dimen/space_medium" />
 
         <include
             android:id="@+id/blood_pressure_input"
             layout="@layout/layout_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/space_xsmall" />
+            android:layout_marginVertical="@dimen/space_medium" />
 
         <include
             android:id="@+id/blood_sugar_input"
             layout="@layout/layout_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/space_xsmall" />
+            android:layout_marginVertical="@dimen/space_medium" />
 
         <include
             android:id="@+id/heart_rate_input"
             layout="@layout/layout_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/space_xsmall" />
+            android:layout_marginVertical="@dimen/space_medium" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_submit"
@@ -54,15 +54,10 @@
             android:textColor="@color/white" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/res_bp"
+            android:id="@+id/txt_result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/res_bg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

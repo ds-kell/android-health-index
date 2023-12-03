@@ -1,34 +1,34 @@
 package vn.com.dsk.demo.base.health_index.common
 
 import android.content.Context
-import android.content.res.AssetManager
-import kotlinx.serialization.json.Json
-import org.json.JSONObject
-import java.io.IOException
-import java.nio.charset.Charset
+import com.google.gson.Gson
+import java.io.*
 
 class JsonReader(private val context: Context) {
+    fun readJsonFile(fileName: String): ModelParameters {
+        val inputStream: InputStream = context.assets.open(fileName)
+        val jsonString = readFromStream(inputStream)
+        return Gson().fromJson(jsonString, ModelParameters::class.java)
+    }
 
-    fun readJsonFromAssets(fileName: String): ModelParameters? {
-        var json: String? = null
+    private fun readFromStream(inputStream: InputStream): String {
+        val reader = BufferedReader(InputStreamReader(inputStream))
+        val stringBuilder = StringBuilder()
+        var line: String?
         try {
-            val inputStream = context.assets.open(fileName)
-            val size = inputStream.available()
-            val buffer = ByteArray(size)
-            inputStream.read(buffer)
-            inputStream.close()
-            json = String(buffer, Charset.defaultCharset())
-        } catch (e: IOException) {
-            e.printStackTrace()
-            return null
-        }
-
-        return try {
-            Json.decodeFromString(json)
+            while (reader.readLine().also { line = it } != null) {
+                stringBuilder.append(line)
+            }
         } catch (e: Exception) {
             e.printStackTrace()
-            null
+        } finally {
+            try {
+                inputStream.close()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
+        return stringBuilder.toString()
     }
 }
 

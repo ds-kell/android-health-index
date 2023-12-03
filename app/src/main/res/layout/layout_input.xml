@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -7,27 +8,34 @@
         <variable
             name="textHint"
             type="String" />
+
+        <variable
+            name="textUnit"
+            type="String" />
+
+        <variable
+            name="textLabel"
+            type="String" />
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="@dimen/space_xsmall"
-        android:layout_margin="@dimen/space_small"
-        android:background="@drawable/bg_border_gray">
+        android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatEditText
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/edt_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/space_medium"
-            android:background="@drawable/bg_border_xsmall"
-            android:ellipsize="end"
             android:hint="@{textHint}"
-            android:inputType="number"
-            android:maxLines="1"
-            android:paddingVertical="@dimen/space_xsmall"
-            android:textColor="?colorOnSurface"
-            android:textSize="@dimen/font_medium"
-            tools:hint="Text hint" />
+            app:suffixText="@{textUnit}">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

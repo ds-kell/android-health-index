@@ -1,31 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/space_extra"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Health Index"
-            android:textSize="30sp" />
+            android:layout_marginTop="@dimen/space_large"
+            android:text="Đánh giá chỉ số sức khoẻ"
+            android:textSize="25sp" />
 
         <include
             android:id="@+id/age_input"
             layout="@layout/layout_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_large"
             android:layout_marginVertical="@dimen/space_medium" />
 
         <include
-            android:id="@+id/blood_pressure_input"
+            android:id="@+id/diastolic_blood_pressure_input"
             layout="@layout/layout_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_large"
+            android:layout_marginVertical="@dimen/space_medium" />
+
+        <include
+            android:id="@+id/systolic_blood_pressure_input"
+            layout="@layout/layout_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_large"
             android:layout_marginVertical="@dimen/space_medium" />
 
         <include
@@ -33,13 +43,7 @@
             layout="@layout/layout_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/space_medium" />
-
-        <include
-            android:id="@+id/heart_rate_input"
-            layout="@layout/layout_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_large"
             android:layout_marginVertical="@dimen/space_medium" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -47,16 +51,49 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/space_large"
+            android:layout_marginVertical="@dimen/space_large"
             android:background="@drawable/bg_button"
-            android:text="Submit"
+            android:text="@string/label_submit"
             android:textAllCaps="false"
             android:textColor="@color/white" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txt_result"
+            android:id="@+id/txt_health"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_large"
+            android:layout_marginTop="@dimen/space_xmedium"
+            android:maxLines="1"
+            android:textSize="18sp"
+            android:visibility="gone" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txt_health_index"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_large"
+            android:maxLines="1"
+            android:textSize="18sp"
+            android:visibility="gone" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txt_label_recommendations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_large"
+            android:layout_marginTop="@dimen/space_large"
+            android:maxLines="1"
+            android:textAllCaps="true"
+            android:textSize="22sp"
+            android:visibility="gone" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txt_recommendations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_large"
+            android:textColor="@color/red"
+            android:textSize="18sp"
             android:visibility="gone" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

@@ -1,6 +1,5 @@
 package vn.com.dsk.demo.base.health_index.common
 
-import android.util.Log
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlin.math.*
@@ -23,8 +22,7 @@ fun softmax(matrix: List<List<Double>>): List<List<Double>> {
 }
 
 fun matrixMultiplication(
-    matrix1: List<List<Double>>,
-    matrix2: List<List<Double>>
+    matrix1: List<List<Double>>, matrix2: List<List<Double>>
 ): List<List<Double>> {
     val row1 = matrix1.size
     val col1 = matrix1[0].size
@@ -46,18 +44,20 @@ fun matrixMultiplication(
 fun predict(X: List<List<Double>>, parameters: ModelParameters): ModelPredict {
     val forwardPropagation = forwardPropagationMultiOutput(X, parameters)
     return ModelPredict(
-        X1 = forwardPropagation.A2[0][0],
-        X2 = forwardPropagation.A2[1][0],
-        X3 = forwardPropagation.A2[2][0],
-        Y1 = forwardPropagation.A2[3][0],
-        Y2 = forwardPropagation.A2[4][0],
-        Y3 = forwardPropagation.A2[5][0],
+        bloodPressure = ModelLevel(
+            low = ModelKeyValue("Low", forwardPropagation.A2[0][0]),
+            medium = ModelKeyValue("Medium", forwardPropagation.A2[1][0]),
+            high = ModelKeyValue("High", forwardPropagation.A2[2][0])
+        ), bloodSugar = ModelLevel(
+            low = ModelKeyValue("Low", forwardPropagation.A2[3][0]),
+            medium = ModelKeyValue("Medium", forwardPropagation.A2[4][0]),
+            high = ModelKeyValue("High", forwardPropagation.A2[4][0])
+        )
     )
 }
 
 fun forwardPropagationMultiOutput(
-    X: List<List<Double>>,
-    parameters: ModelParameters
+    X: List<List<Double>>, parameters: ModelParameters
 ): ModelForwardPropagation {
 
     val Z1 = matrixAddition(matrixMultiplication(parameters.W1, X), parameters.b1)
@@ -116,20 +116,40 @@ data class ModelParameters(
     @SerialName("b2") val b2: List<List<Double>>,
 )
 
-@Serializable
 data class ModelForwardPropagation(
-    @SerialName("Z1") val Z1: List<List<Double>>,
-    @SerialName("A1") val A1: List<List<Double>>,
-    @SerialName("Z2") val Z2: List<List<Double>>,
-    @SerialName("A2") val A2: List<List<Double>>,
+    val Z1: List<List<Double>>,
+    val A1: List<List<Double>>,
+    val Z2: List<List<Double>>,
+    val A2: List<List<Double>>,
 )
 
-@Serializable
 data class ModelPredict(
-    @SerialName("X1") val X1: Double,
-    @SerialName("X2") val X2: Double,
-    @SerialName("X3") val X3: Double,
-    @SerialName("Y1") val Y1: Double,
-    @SerialName("Y2") val Y2: Double,
-    @SerialName("Y3") val Y3: Double,
+    val bloodPressure: ModelLevel = ModelLevel(
+        low = ModelKeyValue("Low", 0.0),
+        medium = ModelKeyValue("Medium", 0.0),
+        high = ModelKeyValue("High", 0.0)
+    ),
+    val bloodSugar: ModelLevel = ModelLevel(
+        low = ModelKeyValue("Low", 0.0),
+        medium = ModelKeyValue("Medium", 0.0),
+        high = ModelKeyValue("High", 0.0)
+    )
+)
+
+data class ModelLevel(
+    val low: ModelKeyValue,
+    val medium: ModelKeyValue,
+    val high: ModelKeyValue,
+)
+
+data class ModelKeyValue(
+    var key: String = "",
+    var value: Double = 0.0,
+)
+
+data class ModelHealthIndex(
+    val unhealthy: ModelKeyValue = ModelKeyValue(key = "UH", value = 0.0),
+    val lowHealthy: ModelKeyValue = ModelKeyValue(key = "LH", value = 0.0),
+    val seemsHealthy: ModelKeyValue = ModelKeyValue(key = "SH", value = 0.0),
+    val healthy: ModelKeyValue = ModelKeyValue(key = "H", value = 0.0)
 )

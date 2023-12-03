@@ -19,7 +19,6 @@ fun fuzzyInference(modelPredict: ModelPredict): ModelHealthIndex {
                 else -> 0.0
             }
         }
-
         for ((sugarLevel, healthIndexKey) in sugarLevelMap) {
             val sugarValue = modelPredict.bloodSugar.run {
                 when (sugarLevel) {
@@ -29,9 +28,7 @@ fun fuzzyInference(modelPredict: ModelPredict): ModelHealthIndex {
                     else -> 0.0
                 }
             }
-
             val minValue = minOf(pressureValue, sugarValue)
-
             when (healthIndexKey) {
                 "UH" -> modelHealthIndex.unhealthy.value = maxOf(minValue, modelHealthIndex.unhealthy.value)
                 "LH" -> modelHealthIndex.lowHealthy.value = maxOf(minValue, modelHealthIndex.lowHealthy.value)

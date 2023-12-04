@@ -16,6 +16,9 @@
         <variable
             name="textLabel"
             type="String" />
+        <variable
+            name="textError"
+            type="String" />
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -24,16 +27,19 @@
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/edt_input"
+            android:id="@+id/input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@{textHint}"
+            app:errorEnabled="false"
             app:suffixText="@{textUnit}">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_text_input"
                 android:layout_width="match_parent"
+                android:maxLength="6"
                 android:layout_height="wrap_content"
-                android:inputType="number" />
+                android:inputType="numberDecimal" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

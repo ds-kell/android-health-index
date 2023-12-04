@@ -11,7 +11,7 @@
     <dimen name="space_extra">40dp</dimen>
     <!--    -->
     <dimen name="font_small">10sp</dimen>
-    <dimen name="font_medium">15sp</dimen>
+    <dimen name="font_medium">16sp</dimen>
     <dimen name="font_xmedium">20sp</dimen>
     <dimen name="font_large">25sp</dimen>
     <dimen name="font_xlarge">35sp</dimen>

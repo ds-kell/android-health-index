@@ -1,12 +1,9 @@
 package vn.com.dsk.demo.base.health_index.common
 
-object MatrixRule {
-    val rule = mutableMapOf(
-        "Low"    to mutableMapOf("Low" to "UH", "Medium" to "SH", "High" to "UH"),
-        "Medium" to mutableMapOf("Low" to "SH", "Medium" to "H",  "High" to "LH"),
-        "High"   to mutableMapOf("Low" to "UH", "Medium" to "LH", "High" to "UH")
-    )
-}
+import vn.com.dsk.demo.base.health_index.model.MatrixRule
+import vn.com.dsk.demo.base.health_index.model.ModelHealthIndex
+import vn.com.dsk.demo.base.health_index.model.ModelPredict
+
 
 fun fuzzyInference(modelPredict: ModelPredict): ModelHealthIndex {
     val modelHealthIndex = ModelHealthIndex()
@@ -30,10 +27,10 @@ fun fuzzyInference(modelPredict: ModelPredict): ModelHealthIndex {
             }
             val minValue = minOf(pressureValue, sugarValue)
             when (healthIndexKey) {
-                "UH" -> modelHealthIndex.unhealthy.value = maxOf(minValue, modelHealthIndex.unhealthy.value)
-                "LH" -> modelHealthIndex.lowHealthy.value = maxOf(minValue, modelHealthIndex.lowHealthy.value)
-                "SH" -> modelHealthIndex.seemsHealthy.value = maxOf(minValue, modelHealthIndex.seemsHealthy.value)
-                "H" -> modelHealthIndex.healthy.value = maxOf(minValue, modelHealthIndex.healthy.value)
+                "Unhealthy" -> modelHealthIndex.unhealthy.value = maxOf(minValue, modelHealthIndex.unhealthy.value)
+                "Low Healthy" -> modelHealthIndex.lowHealthy.value = maxOf(minValue, modelHealthIndex.lowHealthy.value)
+                "Seems Healthy" -> modelHealthIndex.seemsHealthy.value = maxOf(minValue, modelHealthIndex.seemsHealthy.value)
+                "Healthy" -> modelHealthIndex.healthy.value = maxOf(minValue, modelHealthIndex.healthy.value)
             }
         }
     }
@@ -62,18 +59,4 @@ fun defuzzification(modelHealthIndex: ModelHealthIndex): Double {
     } else {
         0.0
     }
-}
-
-fun main() {
-    val modelPredict = ModelPredict(
-        ModelLevel(
-            low = ModelKeyValue("Low", 0.8),
-            medium = ModelKeyValue("Medium", 0.0),
-            high = ModelKeyValue("High", 0.0)
-        ), ModelLevel(
-            low = ModelKeyValue("Low", 0.0),
-            medium = ModelKeyValue("Medium", 0.0),
-            high = ModelKeyValue("High", 0.0)
-        )
-    )
 }

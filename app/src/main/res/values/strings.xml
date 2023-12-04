@@ -1,4 +1,20 @@
 <resources>
     <string name="app_name">Health Index</string>
     <string name="label_submit">Đánh giá</string>
+    <string name="label_health_status">Tình trạng sức khỏe</string>
+    <string name="label_recommendations">Khuyến nghị*</string>
+    <string name="recommendations_for_healthy">Bạn đang có sức khỏe rất tốt. Hãy duy trì lối sống lành mạnh để duy trì điều này</string>
+    <string name="recommendations_for_no_healthy">Sức khỏe của bạn hiện đang không ở mức tốt nhất. Bạn nên tới cơ sở ý tế để có kết quả chính xác nhất</string>
+    <string name="label_age">Tuổi của bạn (từ 15 đến 55)</string>
+    <string name="age_unit">Tuổi (năm)</string>
+    <string name="diastolic_blood_pressure">Huyết áp tâm trương</string>
+    <string name="systolic_blood_pressure">Huyết áp tâm thu</string>
+    <string name="label_blood_sugar">Đường huyết</string>
+    <string name="label_blood_pressure">Huyết áp</string>
+    <string name="blood_pressure_unit">mmHg</string>
+    <string name="blood_sugar_when_hungry">Đường huyết khi đói</string>
+    <string name="blood_sugar_unit">mg/dL</string>
+    <string name="title_health_evaluate">Đánh giá sức khoẻ</string>
+    <string name="label_index_invalid">Thông tin không hợp lệ, vui lòng kiểm tra lại</string>
+    <string name="label_health_index">Chỉ số sức khoẻ</string>
 </resources>

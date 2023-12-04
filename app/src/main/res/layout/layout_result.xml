@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="bloodSugar"
+            type="String" />
+
+        <variable
+            name="bloodPressure"
+            type="String" />
+
+        <variable
+            name="healthIndex"
+            type="String" />
+
+        <variable
+            name="healthLabel"
+            type="String" />
+
+        <variable
+            name="healthRecommendations"
+            type="String" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layout_result"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/space_medium"
+            android:text="@string/label_health_status"
+            android:textSize="@dimen/font_large" />
+
+        <include
+            layout="@layout/item_info_simple"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_medium"
+            app:infoTitle="@{@string/label_blood_sugar}"
+            app:infoValue="@{bloodSugar}" />
+
+        <include
+            layout="@layout/item_info_simple"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_medium"
+            app:infoTitle="@{@string/label_blood_pressure}"
+            app:infoValue="@{bloodPressure}" />
+
+        <include
+            layout="@layout/item_info_simple"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_medium"
+            app:infoTitle="@{@string/label_health_status}"
+            app:infoValue="@{healthLabel}" />
+
+        <include
+            layout="@layout/item_info_simple"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_medium"
+            app:infoTitle="@{@string/label_health_index}"
+            app:infoValue="@{healthIndex}" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txt_label_recommendations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_medium"
+            android:layout_marginTop="@dimen/space_medium"
+            android:maxLines="1"
+            android:text="@string/label_recommendations"
+            android:textAllCaps="true"
+            android:textSize="@dimen/font_medium" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txt_recommendations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_medium"
+            android:text="@{healthRecommendations}"
+            android:textSize="@dimen/font_medium"
+            tools:text="@string/recommendations_for_no_healthy" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

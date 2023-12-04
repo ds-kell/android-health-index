@@ -1,5 +1,10 @@
 package vn.com.dsk.demo.base.health_index.common
 
+import android.util.Log
+import vn.com.dsk.demo.base.health_index.model.ModelKeyValue
+import vn.com.dsk.demo.base.health_index.model.ModelLevel
+import vn.com.dsk.demo.base.health_index.model.ModelParameters
+import vn.com.dsk.demo.base.health_index.model.ModelPredict
 import kotlin.math.*
 
 
@@ -23,52 +28,67 @@ fun matrixMultiplication(
     return result
 }
 
-fun normalizeArray(inputArray: List<List<Double>>): List<List<Double>> {
-
-    if (inputArray.size != 1) {
-        return inputArray
+fun normalizeArray(listInput: List<List<Double>>): List<Double> {
+    if (listInput.isEmpty() || listInput[0].isEmpty()) return emptyList()
+    val tmpList = listInput[0].toMutableList()
+//    Log.d("kell-log", "bf: $tmpList")
+    return tmpList
+    /**var minValue = tmpList.minOrNull() ?: 0.0
+    for (i in 0..<tmpList.size) {
+        if (tmpList[i] < 0.0) {
+            tmpList[i] = 0.0
+            minValue = 0.0
+        }
+        if (minValue != 0.0 && tmpList[i] == minValue) {
+            if (i == 0) {
+                tmpList[0] = 0.0
+                tmpList[1] = (tmpList[0] + tmpList[0])
+            }
+            if (i == tmpList.size - 1) {
+                tmpList[i - 1] = tmpList[i - 1] + tmpList[i]
+            }
+        }
     }
-
-    val partSize = inputArray[0].size / 2
-    val firstPart = inputArray[0].subList(0, partSize)
-    val secondPart = inputArray[0].subList(partSize, inputArray[0].size)
-
-    return listOf(roundArray(firstPart), roundArray(secondPart))
-}
-
-fun roundArray(listInput: List<Double>): List<Double> {
-    if (listInput.isEmpty()) return emptyList()
-    val tmp = listInput.map { if (it < 0) 0.0 else it }
-    val minValue = tmp.minOrNull() ?: 0.0
-    val roundedList = tmp.map {
-        if (it == minValue)
-            0.0
-        else
-            it + minValue / (tmp.size - 1)
-
-    }
-    val sum = roundedList.sum()
+    val sum = tmpList.sum()
     return if (sum != 0.0) {
-        roundedList.map { round(it / sum * 1000.0) / 1000.0 }
+        tmpList.map { value ->
+            if (value == sum) {
+                round(value * 1000) / 1000
+            } else {
+                round(value / sum * 1000.0) / 1000.0
+            }
+        }
     } else {
-        roundedList
-    }
+        tmpList
+    }*/
 }
 
 
-fun predict(X: List<Double>, parameters: ModelParameters): ModelPredict {
-    val tmp1 = matrixMultiplication(listOf(X), transposeMatrix(parameters.weights))
-    val tmp2 = matrixAddition(tmp1, listOf(parameters.bias))
-    val result = normalizeArray(tmp2)
+fun predict(
+    bp: List<Double>,
+    bs: List<Double>,
+    parameterBp: ModelParameters,
+    parameterBs: ModelParameters
+): ModelPredict {
+
+    val tmpBp = matrixMultiplication(listOf(bp), transposeMatrix(parameterBp.weights))
+    val tmpBs = matrixMultiplication(listOf(bs), transposeMatrix(parameterBs.weights))
+
+    val resultBp = normalizeArray(matrixAddition(tmpBp, listOf(parameterBp.bias)))
+    Log.d("kell-log", "bp: $resultBp")
+
+    val resultBs = normalizeArray(matrixAddition(tmpBs, listOf(parameterBs.bias)))
+    Log.d("kell-log", "bs: $resultBs")
+
     return ModelPredict(
         bloodPressure = ModelLevel(
-            low = ModelKeyValue("Low", result[0][0]),
-            medium = ModelKeyValue("Medium", result[0][1]),
-            high = ModelKeyValue("High", result[0][2])
+            low = ModelKeyValue("Low", resultBp[0]),
+            medium = ModelKeyValue("Medium", resultBp[1]),
+            high = ModelKeyValue("High", resultBp[2])
         ), bloodSugar = ModelLevel(
-            low = ModelKeyValue("Low", result[1][0]),
-            medium = ModelKeyValue("Medium", result[1][1]),
-            high = ModelKeyValue("High", result[1][2])
+            low = ModelKeyValue("Low", resultBs[0]),
+            medium = ModelKeyValue("Medium", resultBs[1]),
+            high = ModelKeyValue("High", resultBs[2])
         )
     )
 }
@@ -105,38 +125,3 @@ fun transposeMatrix(matrix: List<List<Double>>): List<List<Double>> {
 
     return result
 }
-
-
-data class ModelParameters(
-    val weights: List<List<Double>>, val bias: List<Double>
-)
-
-data class ModelPredict(
-    val bloodPressure: ModelLevel = ModelLevel(
-        low = ModelKeyValue("Low", 0.0),
-        medium = ModelKeyValue("Medium", 0.0),
-        high = ModelKeyValue("High", 0.0)
-    ), val bloodSugar: ModelLevel = ModelLevel(
-        low = ModelKeyValue("Low", 0.0),
-        medium = ModelKeyValue("Medium", 0.0),
-        high = ModelKeyValue("High", 0.0)
-    )
-)
-
-data class ModelLevel(
-    val low: ModelKeyValue,
-    val medium: ModelKeyValue,
-    val high: ModelKeyValue,
-)
-
-data class ModelKeyValue(
-    var key: String = "",
-    var value: Double = 0.0,
-)
-
-data class ModelHealthIndex(
-    val unhealthy: ModelKeyValue = ModelKeyValue(key = "UH", value = 0.0),
-    val lowHealthy: ModelKeyValue = ModelKeyValue(key = "LH", value = 0.0),
-    val seemsHealthy: ModelKeyValue = ModelKeyValue(key = "SH", value = 0.0),
-    val healthy: ModelKeyValue = ModelKeyValue(key = "H", value = 0.0)
-)

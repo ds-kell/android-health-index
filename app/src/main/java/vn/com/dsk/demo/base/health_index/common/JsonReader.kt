@@ -2,6 +2,7 @@ package vn.com.dsk.demo.base.health_index.common
 
 import android.content.Context
 import com.google.gson.Gson
+import vn.com.dsk.demo.base.health_index.model.ModelParameters
 import java.io.*
 
 class JsonReader(private val context: Context) {

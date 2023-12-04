@@ -1,100 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <data>
+        <variable
+            name="vm"
+            type="vn.com.dsk.demo.base.health_index.ui.HealthIndexViewModel" />
+    </data>
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/space_large"
-            android:text="Đánh giá chỉ số sức khoẻ"
-            android:textSize="25sp" />
-
-        <include
-            android:id="@+id/age_input"
-            layout="@layout/layout_input"
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/space_large"
-            android:layout_marginVertical="@dimen/space_medium" />
+            android:orientation="vertical">
 
-        <include
-            android:id="@+id/diastolic_blood_pressure_input"
-            layout="@layout/layout_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/space_large"
-            android:layout_marginVertical="@dimen/space_medium" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/space_large"
+                android:text="@string/title_health_evaluate"
+                android:textSize="@dimen/font_large" />
 
-        <include
-            android:id="@+id/systolic_blood_pressure_input"
-            layout="@layout/layout_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/space_large"
-            android:layout_marginVertical="@dimen/space_medium" />
+            <include
+                android:id="@+id/age_input"
+                layout="@layout/layout_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/space_large"
+                android:layout_marginVertical="@dimen/space_medium"
+                app:textHint="@{@string/label_age}"
+                app:textUnit="@{@string/age_unit}" />
 
-        <include
-            android:id="@+id/blood_sugar_input"
-            layout="@layout/layout_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/space_large"
-            android:layout_marginVertical="@dimen/space_medium" />
+            <include
+                android:id="@+id/blood_sugar_input"
+                layout="@layout/layout_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/space_large"
+                android:layout_marginVertical="@dimen/space_medium"
+                app:textHint="@{@string/blood_sugar_when_hungry}"
+                app:textUnit="@{@string/blood_sugar_unit}" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_submit"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginVertical="@dimen/space_large"
-            android:background="@drawable/bg_button"
-            android:text="@string/label_submit"
-            android:textAllCaps="false"
-            android:textColor="@color/white" />
+            <include
+                android:id="@+id/diastolic_blood_pressure_input"
+                layout="@layout/layout_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/space_large"
+                android:layout_marginVertical="@dimen/space_medium"
+                app:textHint="@{@string/diastolic_blood_pressure}"
+                app:textUnit="@{@string/blood_pressure_unit}" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txt_health"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/space_large"
-            android:layout_marginTop="@dimen/space_xmedium"
-            android:maxLines="1"
-            android:textSize="18sp"
-            android:visibility="gone" />
+            <include
+                android:id="@+id/systolic_blood_pressure_input"
+                layout="@layout/layout_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/space_large"
+                android:layout_marginVertical="@dimen/space_medium"
+                app:textHint="@{@string/systolic_blood_pressure}"
+                app:textUnit="@{@string/blood_pressure_unit}" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txt_health_index"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/space_large"
-            android:maxLines="1"
-            android:textSize="18sp"
-            android:visibility="gone" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/label_index_invalid"
+                android:textColor="@color/red"
+                android:textSize="@dimen/font_medium"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txt_label_recommendations"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/space_large"
-            android:layout_marginTop="@dimen/space_large"
-            android:maxLines="1"
-            android:textAllCaps="true"
-            android:textSize="22sp"
-            android:visibility="gone" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_submit"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginVertical="@dimen/space_large"
+                android:text="@string/label_submit"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txt_recommendations"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/space_large"
-            android:textColor="@color/red"
-            android:textSize="18sp"
-            android:visibility="gone" />
+            <include
+                android:id="@+id/result"
+                layout="@layout/layout_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/space_large"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </ScrollView>
 </layout>
